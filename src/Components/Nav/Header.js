@@ -9,9 +9,9 @@ const Header = () => {
       Header
       <nav>
         <NavLink to="/">Home</NavLink>
-        <NavLink to="/auth">Auth</NavLink>
         <NavLink to="/addMovie">Add Movie</NavLink>
         <NavLink to="/myMovies">My Movies</NavLink>
+        <NavLink to="/auth">Auth</NavLink>
       </nav>
       <button onClick={() => authCtx.logout()}>logout</button>
     </div>

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 import AuthContext from "../../store/authContext";
 
 const Auth = () => {
@@ -8,6 +8,7 @@ const Auth = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
   const authCtx = useContext(AuthContext);
 
   const handleAuth = (e) => {
@@ -20,10 +21,11 @@ const Auth = () => {
         },
       })
       .then((res) => {
-        console.log(res.data);
-        console.log(authCtx);
+        // console.log(res.data);
+        // console.log(authCtx);
         const { token, exp, userId, username } = res.data;
         authCtx.login(token, exp, userId, username);
+        navigate("/");
       })
       .catch((err) => console.log(err));
   };

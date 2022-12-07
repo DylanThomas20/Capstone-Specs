@@ -1,10 +1,12 @@
 import { useContext, useState } from "react";
 import AuthContext from "../../store/authContext";
 import axios from "axios";
-import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+// import { NavLink } from "react-router-dom";
 
 const AddMovie = () => {
   const authCtx = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const [movieTitle, setMovieTitle] = useState("");
   const [moviePoster, setMoviePoster] = useState("");
@@ -19,7 +21,7 @@ const AddMovie = () => {
           authorization: authCtx.token,
         },
       })
-      .then((res) => console.log(res.data))
+      .then((res) => navigate("/"))
       .catch((err) => console.log(err));
   };
   return (

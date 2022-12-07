@@ -16,6 +16,20 @@ module.exports = {
       res.sendStatus(500);
     }
   },
+  deleteMovie: async (req, res) => {
+    try {
+      const { id } = req.params.id;
+      console.log(req.params.id);
+      console.log("deleteMovieHit");
+
+      // await SavedMovie.destroy({ where: { movieId: +req.params.id } });
+      await Movie.destroy({ where: { id: +req.params.id } });
+      res.sendStatus(200);
+    } catch (err) {
+      console.log(err);
+      res.sendStatus(500);
+    }
+  },
   editMovie: async (req, res) => {
     try {
       const { movieTitle, moviePoster, movieId } = req.body;
@@ -87,6 +101,18 @@ module.exports = {
     } catch (err) {
       console.log(err);
       res.sendStatus(500);
+    }
+  },
+  deleteSavedMovie: async (req, res) => {
+    try {
+      // const { id } = req.params;
+      console.log("deleteSavedMovieHit");
+      await SavedMovie.destroy({ where: { id: +req.params.id } });
+      await res.sendStatus(200);
+    } catch (error) {
+      console.log("error deleting saved movie");
+      console.log(error);
+      res.sendStatus(400);
     }
   },
 };

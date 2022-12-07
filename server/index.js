@@ -29,6 +29,8 @@ const {
   getAllMovies,
   addToMyMovies,
   getMyMovies,
+  deleteSavedMovie,
+  deleteMovie,
 } = require("./controllers/moviesCtrl");
 
 //User endpoints
@@ -38,14 +40,16 @@ app.post("/login", login);
 //Movie endpoints
 app.post("/movie/:userId", isAuthenticated, addMovie);
 app.put("/movie", isAuthenticated, editMovie);
-app.get("/movie", isAuthenticated, getAllMovies);
+app.get("/movie", getAllMovies);
+app.delete("/movie/:id", isAuthenticated, deleteMovie);
 
 app.post("/myMovies", isAuthenticated, addToMyMovies);
 app.get("/myMovies/:userId", isAuthenticated, getMyMovies);
+app.delete("/myMovies/:id", isAuthenticated, deleteSavedMovie);
 
 //Reset and Reseed DB .sync({ force: true })
 sequelize
-  .sync()
+  .sync({ force: true })
   .then(() => {
     app.listen(
       SERVER_PORT,

@@ -7,6 +7,7 @@ const MovieItem = ({ movie, getAllMovies, myMovies }) => {
   const authCtx = useContext(AuthContext);
 
   const [editing, setEditing] = useState(false);
+  const [saved, setSaved] = useState(false);
 
   const [movieTitle, setMovieTitle] = useState(movie.movieTitle);
   const [moviePoster, setMoviePoster] = useState(movie.moviePoster);
@@ -30,6 +31,29 @@ const MovieItem = ({ movie, getAllMovies, myMovies }) => {
       })
       .catch((err) => console.log(err));
   };
+  const deleteMovie = () => {
+    // console.log("deleteMovie hit");
+    axios
+      .delete(`/myMovies/${movie.id}`, {
+        headers: {
+          authorization: authCtx.token,
+        },
+      })
+      .then((res) => {
+        console.log("savedMovieDeletedBud");
+      })
+      .catch((err) => console.log(err));
+    axios
+      .delete(`/movie/${movie.id}`, {
+        headers: {
+          authorization: authCtx.token,
+        },
+      })
+      .then((res) => {
+        getAllMovies();
+      })
+      .catch((err) => console.log(err));
+  };
   const saveToMyMovies = () => {
     axios
       .post(
@@ -41,24 +65,30 @@ const MovieItem = ({ movie, getAllMovies, myMovies }) => {
           },
         }
       )
-      .then((res) => console.log(res.data))
+      .then(() => console.log(""))
       .catch((err) => console.log(err));
   };
-  const removeFromMyMovies = () => {
-    axios
-      .delete(
-        "/myMovies",
-        { userId: authCtx.userId, movieId: movie.id },
-        {
-          headers: {
-            authorization: authCtx.token,
-          },
-        }
-      )
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
+  const savedMovieCheck = (movieId, movieUserId) => {
+    axios.post();
+
+    //write axios.post request that checks the saved movies array
+    //for any post that is saved by a user, and have it check if
+    //that this is the saved post.
   };
-  console.log(movie);
+  // const deleteSavedMovie = () => {
+  //   axios
+  //     .delete(`/movie/${movie.id}`, {
+  //       headers: {
+  //         authorization: authCtx.token,
+  //       },
+  //     })
+  //     .then((res) => {
+  //       getAllMovies();
+  //     })
+  //     .catch((err) => console.log(err));
+  // };
+
+  savedMovieCheck(movie.id, movie.user.userId);
   return (
     <div className="movieCard">
       {!editing ? (
@@ -69,7 +99,13 @@ const MovieItem = ({ movie, getAllMovies, myMovies }) => {
           {myMovies ? (
             <button>Remove</button>
           ) : (
-            <button onClick={() => saveToMyMovies()}>Save Movie</button>
+            <div>
+              {!saved ? (
+                <button onClick={() => saveToMyMovies()}>Save Movie</button>
+              ) : (
+                console.log("already saved")
+              )}
+            </div>
           )}
         </div>
       ) : (
@@ -90,9 +126,23 @@ const MovieItem = ({ movie, getAllMovies, myMovies }) => {
         </form>
       )}
       {myMovies ? null : (
-        <button onClick={() => setEditing(!editing)}>
-          {editing ? "Cancel Changes" : "Edit Movie"}
-        </button>
+        <div>
+          <button onClick={() => setEditing(!editing)}>
+            {editing ? "Cancel Changes" : "Edit Movie"}
+          </button>
+          <div>
+            {editing ? (
+              <button
+                onClick={() => {
+                  deleteMovie();
+                  // deleteSavedMovie();
+                }}
+              >
+                Delete Movie
+              </button>
+            ) : null}
+          </div>
+        </div>
       )}
     </div>
   );
