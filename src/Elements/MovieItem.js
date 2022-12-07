@@ -40,7 +40,7 @@ const MovieItem = ({ movie, getAllMovies, myMovies }) => {
         },
       })
       .then((res) => {
-        console.log("savedMovieDeletedBud");
+        // console.log("savedMovieDeletedBud");
       })
       .catch((err) => console.log(err));
     axios
@@ -75,18 +75,19 @@ const MovieItem = ({ movie, getAllMovies, myMovies }) => {
     //for any post that is saved by a user, and have it check if
     //that this is the saved post.
   };
-  // const deleteSavedMovie = () => {
-  //   axios
-  //     .delete(`/movie/${movie.id}`, {
-  //       headers: {
-  //         authorization: authCtx.token,
-  //       },
-  //     })
-  //     .then((res) => {
-  //       getAllMovies();
-  //     })
-  //     .catch((err) => console.log(err));
-  // };
+  const deleteSavedMovie = () => {
+    console.log("deleteSavedMovies hit");
+    axios
+      .delete(`/myMovies/${movie.id}`, {
+        headers: {
+          authorization: authCtx.token,
+        },
+      })
+      .then((res) => {
+        console.log("success");
+      })
+      .catch((err) => console.log(err));
+  };
 
   savedMovieCheck(movie.id, movie.user.userId);
   return (
@@ -97,7 +98,7 @@ const MovieItem = ({ movie, getAllMovies, myMovies }) => {
           <p>Movie Title: {movie.movieTitle}</p>
           <p>Movie Poster: {movie.moviePoster}</p>
           {myMovies ? (
-            <button>Remove</button>
+            <button onClick={() => deleteSavedMovie()}>Remove</button>
           ) : (
             <div>
               {!saved ? (

@@ -49,7 +49,7 @@ app.delete("/myMovies/:id", isAuthenticated, deleteSavedMovie);
 
 //Reset and Reseed DB .sync({ force: true })
 sequelize
-  .sync({ force: true })
+  .sync({})
   .then(() => {
     app.listen(
       SERVER_PORT,

@@ -10,6 +10,7 @@ const AddMovie = () => {
 
   const [movieTitle, setMovieTitle] = useState("");
   const [moviePoster, setMoviePoster] = useState("");
+  const [ready, setReady] = useState(true);
 
   const addMovie = (e) => {
     e.preventDefault();
@@ -21,7 +22,9 @@ const AddMovie = () => {
           authorization: authCtx.token,
         },
       })
-      .then((res) => navigate("/"))
+      .then((res) => {
+        navigate("/");
+      })
       .catch((err) => console.log(err));
   };
   return (

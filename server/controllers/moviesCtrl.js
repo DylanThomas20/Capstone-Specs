@@ -19,8 +19,8 @@ module.exports = {
   deleteMovie: async (req, res) => {
     try {
       const { id } = req.params.id;
-      console.log(req.params.id);
-      console.log("deleteMovieHit");
+      // console.log(req.params.id);
+      // console.log("deleteMovieHit");
 
       // await SavedMovie.destroy({ where: { movieId: +req.params.id } });
       await Movie.destroy({ where: { id: +req.params.id } });
@@ -105,9 +105,10 @@ module.exports = {
   },
   deleteSavedMovie: async (req, res) => {
     try {
+      console.log(req.params.id);
       // const { id } = req.params;
-      console.log("deleteSavedMovieHit");
-      await SavedMovie.destroy({ where: { id: +req.params.id } });
+      // console.log("deleteSavedMovieHit");
+      await SavedMovie.destroy({ where: { movieId: +req.params.id } });
       await res.sendStatus(200);
     } catch (error) {
       console.log("error deleting saved movie");
